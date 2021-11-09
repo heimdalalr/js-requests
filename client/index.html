@@ -6,15 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Requests in JS lab!</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-    <script src="./script.js" defer></script>
     <style>
         #repeat-text {
             font-size: xx-large;
-            display: none;
+            /* display: none; */
         }
         #hello-text {
             font-size: xx-large;
             display: none;
+        }
+        #fruit-text-box {
+            width: 200px;
         }
     </style>
 </head>
@@ -24,7 +26,14 @@
     <button id='repeat-button'>repeat my param</button>
     <button id='query-button'>send a query</button>
 
-    <p id='hello-text'>Hello World!</p>
+    <p id='hello-text'></p>
     <p id='repeat-text'></p>
+
+    <form id='food-form'></form>
+        <input type="text" id='food-text-box' placeholder="Enter a food... IF YOU DARE!!"/>
+        <button>Add</button>
+        <section id=food-list></section>
+    </form>
+    <script src="./script.js" defer></script>
 </body>
 </html>

@@ -2,6 +2,7 @@
 //THE TEST SERVER IS RUNNING ON LOCALHOST:3000//
 ////////////////////////////////////////////////
 
+
 // PROBLEM 1
 /*
     In the index.html file in this folder there is a button with an id of 'say-hello-button'!
@@ -10,7 +11,7 @@
 */
 
 // CODE HERE
-
+const sayHelloButton = document.getElementById('say-hello-button');
 
 // PROBLEM 2
 /*
@@ -20,7 +21,18 @@
 */
 
 // CODE HERE
+function changeColor(event){
+    if (event.type === 'mouseover') {
+        event.target.style.backgroundColor = 'black';
+        event.target.style.color = 'white';
+    } else {
+        event.target.style.backgroundColor = '#EFEFEF';
+        event.target.style.color = 'black';
+    } 
+    
+}
 
+sayHelloButton.addEventListener('mouseover', changeColor);
 
 // PROBLEM 3
 /*
@@ -32,7 +44,7 @@
 */
 
 // CODE HERE
-
+sayHelloButton.addEventListener('mouseout', changeColor);
 
 // PROBLEM 4
 /*
@@ -53,7 +65,7 @@ const sayHello = () => {
 // DO NOT EDIT FUNCTION
 
 // CODE HERE
-
+sayHelloButton.addEventListener('click', sayHello);
 
 // PROBLEM 5 
 /*
@@ -68,9 +80,20 @@ const sayHello = () => {
 
 const ohMy = () => {
     // YOUR CODE HERE
+    axios.get('http://localhost:3000/animals')
+        .then(res => {
+            const animalArray = res.data;
+
+            for (let i=0; i < animalArray.length; i++) {
+                const bodyElem = document.querySelector('body');
+                const newPar = document.createElement('p');
+                newPar.textContent = animalArray[i];
+                bodyElem.appendChild(newPar);
+            }
+        });
 }
 
-document.getElementById('animals-button').addEventListener('click', ohMy)
+document.getElementById('animals-button').addEventListener('click', ohMy);
 
 
 // PROBLEM 6 
@@ -86,9 +109,18 @@ document.getElementById('animals-button').addEventListener('click', ohMy)
     We'll be updating this function in the next problem.
 */
 
-const repeatMyParam = () => {
+const repeatMyParam = (event) => {
     //YOUR CODE HERE
+    axios.get(`http://localhost:3000/repeat/${event}`)
+        .then(res => {
+            
+            const repeatText = document.getElementById('repeat-text')
+            repeatText.textContent = res.data;
+            repeatText.display = 'block';
+        })
 }
+const repeatButton = document.getElementById('repeat-button');
+repeatButton.addEventListener('click', repeatMyParam);
 
 // PROBLEM 7
 /*
@@ -111,8 +143,17 @@ const repeatMyParam = () => {
 */
 
 // CODE HERE
+const query = '/?name=joe';
+const emptyQuery = '';
+const multipleQuery = '/?name=joe&age=28';
+function makeQuery() {
+    axios.get(`http://localhost:3000/query-test${query}`)
+        .then(res=> {
+            console.log(res.data);
+        })
+}
 
-
+document.getElementById('query-button').addEventListener('click', makeQuery);
 
 ////////////////
 //INTERMEDIATE//
@@ -164,3 +205,32 @@ const repeatMyParam = () => {
 */
 
 // CODE HERE 
+
+const baseURL = "http://localhost:3000";
+const endPoint = "/food"
+
+function createFood(event){
+    event.preventDefault();
+
+    const food = createFoodObj(event.target.firstChild.textContent);
+    axios.push(`${baseURL}${endPoint}`, food)
+            .then(result => {
+                const foodArray = result.data;
+
+                for (let i=0; i < animalArray.length; i++) {
+                    const bodyElem = document.querySelector('#food-list');
+                    const newPar = document.createElement('p');
+                    newPar.textContent = foodArray[i];
+                    bodyElem.appendChild(newPar);
+                }
+            });
+
+}
+
+function createFoodObj(name){ // in case we want to create this sort of object elsewhere
+    console.log('in createFoodObj');
+    return {newFood: name};
+
+}
+
+console.log('addEventListeber===>', document.querySelector('form'), document.querySelector('form').addEventListener('submit', createFood));
